@@ -357,7 +357,7 @@ def update_tag(elem):
     elif is_housenumber(elem):
         value = update_housnumber(value, MAPPING_HOUSENUMBER)
     elif is_amenity(elem):
-        key, value = update_amenity(key, value, MAPPING_HOUSENUMBER)
+        key, value = update_amenity(key, value, MAPPING_AMENITY)
     else:
         return elem
     elem.attrib['v'] = value.decode('utf-8')

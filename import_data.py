@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-
+# coding: utf8
 """
     Code by Moritz Bunse
 """
