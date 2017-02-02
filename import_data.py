@@ -8,6 +8,7 @@ import pprint
 import re
 import codecs
 import json
+import audit
 
 LOWER = re.compile(r'^([a-z]|_)*$')
 LOWER_COLON = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
@@ -31,15 +32,25 @@ def shape_element(element):
 
         for tag in element.iter():
             if tag.tag == "tag":
+                tag = audit.update_tag(tag)
                 attr = tag.get("k")
-                if attr.count(":") > 1:
+                attributes = attr.split(":")
+                value = tag.get("v")
+                if len(attributes) > 2:
                     continue
-                if attr.startswith("addr:"):
+                if attributes[0] == "addr":
                     if not node.has_key("address"):
                         node["address"] = {}
-                    node["address"][attr.split(":")[1]] = tag.get("v")
+                    node["address"][attributes[1]] = value
                 else:
-                    node[attr] = tag.get("v")
+                    if len(attributes) > 1:
+                        if not node.has_key(attributes[0]):
+                            node[attributes[0]] = {}
+                        elif not isinstance(node[attributes[0]], dict):
+                            continue
+                        node[attributes[0]][attributes[1]] = value
+                    else:
+                        node[attributes[0]] = value
             elif tag.tag == "nd":
                 if not node.has_key("node_refs"):
                     node["node_refs"] = []
@@ -54,15 +65,17 @@ def process_map(file_in, pretty=False):
     """ Processes file_in and creates a new json file from this file. """
     file_out = "{0}.json".format(file_in)
     data = []
-    with codecs.open(file_out, "w") as outfile:
+    with codecs.open(file_out, "w", encoding="utf-8") as outfile:
         for _, element in ET.iterparse(file_in):
             elem = shape_element(element)
             if elem:
                 data.append(elem)
                 if pretty:
-                    outfile.write(json.dumps(elem, indent=2)+"\n")
+                    outfile.write(
+                        json.dumps(elem, indent=2, ensure_ascii=False)+"\n"
+                        )
                 else:
-                    outfile.write(json.dumps(elem) + "\n")
+                    outfile.write(json.dumps(elem, ensure_ascii=False) + "\n")
     return data
 
 def test():
