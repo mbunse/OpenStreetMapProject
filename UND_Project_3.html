@@ -11898,6 +11898,7 @@ Weingäßchen</code></p>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
 <h3 id="House-numbers">House numbers<a class="anchor-link" href="#House-numbers">&#182;</a></h3><p>In the next step I have a look at the house numbers. A house number should be a number that might be followed by one or more letters. A single house number did not match the pattern: <code>ß20</code>. This might have been a typo. The number is changed to 28 according to the position of the house in the street.</p>
+<h3 id="Postal-codes">Postal codes<a class="anchor-link" href="#Postal-codes">&#182;</a></h3><p>Postal codes check to accord with the German five digit standard. None of the postal codes in the dataset deviate from this standard.</p>
 <h3 id="Amenity-Tags">Amenity Tags<a class="anchor-link" href="#Amenity-Tags">&#182;</a></h3><p>Then, I check the amenity tags. According to the Wikipedia page (<a href="https://wiki.openstreetmap.org/wiki/Key:amenity">https://wiki.openstreetmap.org/wiki/Key:amenity</a>) I created a list of expected amenity labels. I find three labels that should be cleaned:</p>
 <ul>
 <li><code>BRK_Zentrum_Schwabach</code>: this is actually a name of a red cross department. It is changed to <code>social centre</code>.</li>
@@ -14086,7 +14087,8 @@ Cfg/FXJj+w01iycAAAAASUVORK5CYII=
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>Data from OpenStreetMap from around Schwabach is already in very good shape. The data base query for the numbers of kindergarten revealed that most of the kindergartens are missing addresses. An option could be to resolve the references to other nodes.</p>
+<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><p>Data from OpenStreetMap from around Schwabach is already in very good shape. The data base query for the numbers of kindergarten revealed that most of the kindergartens are missing addresses.</p>
+<p>An option could be to resolve the references to other nodes. A problem with the approach could be, that also those reference nodes do not have assigned addresses, since nodes do not need to have assigned addresses. For the remaining address-less kindergartens one could try to derive the city from the longitudinal and latitudinal position and search for the nearest node with an assigned postal code. This would require some more advanced queries. Positions should therefore be converted to GeoJSON points and an <a href="https://docs.mongodb.com/manual/core/2dsphere/">sphere2d index</a> should be created based on these. The <a href="https://docs.mongodb.com/manual/reference/operator/aggregation/geoNear/"><code>$geoNear</code></a> aggregation operator would then help to find near nodes. The distances of the nodes should be monitored to not allow the take postal codes from nodes to far away.</p>
 
 </div>
 </div>

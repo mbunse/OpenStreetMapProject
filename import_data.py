@@ -8,7 +8,7 @@ import pprint
 import re
 import codecs
 import json
-import audit
+from cleaning import update_tag
 
 LOWER = re.compile(r'^([a-z]|_)*$')
 LOWER_COLON = re.compile(r'^([a-z]|_)*:([a-z]|_)*$')
@@ -32,7 +32,7 @@ def shape_element(element):
 
         for tag in element.iter():
             if tag.tag == "tag":
-                tag = audit.update_tag(tag)
+                tag = update_tag(tag)
                 attr = tag.get("k")
                 attributes = attr.split(":")
                 value = tag.get("v")
