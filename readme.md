@@ -11,5 +11,8 @@ Then, import the json file to MongoDB:
 Or in PowerShell:
 `> & 'C:\Program Files\MongoDB\Server\3.4\bin\mongoimport.exe' "/file:schwabach.osm.json" "/d osm" "/c schwabach"`
 
+To run the analysis code open the jupyter notebook `UND - Project 3.ipynb`.
+
 To delete the collection form the database, start mongo and enter:
 `db.schwabach.remove({})`
+
