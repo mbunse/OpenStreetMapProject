@@ -6,9 +6,9 @@ Auditing of data is performed by:
 ```
 > python audit.py
 ```
-Two output files will be produced. `investigate_result.txt` shows the XML tree elements for some specified elements (see `INVESTIGATE_STREET`, `INVESTIGATE_HOUSENUMBER` and `INVESTIGATE_AMENITY`). The other file produced is `audit_result.txt`. This file lists all entries deviating from the expectated patterns. This file comes with a `update_tag` function, that updates XML elements according to the findings in the audit phase which ar kept in dictionaries (see `MAPPING` `MAPPING_HOUSENUMBER`, `MAPPING_AMENITY`).
+Two output files will be produced. `investigate_result.txt` shows the XML tree elements for some specified elements (see `INVESTIGATE_STREET`, `INVESTIGATE_HOUSENUMBER` and `INVESTIGATE_AMENITY`). The other file produced is `audit_result.txt`. This file lists all entries deviating from the expectated patterns. This [`cleaning.py`](cleaning.py) code comes with a `update_tag` function, that updates XML elements according to the findings in the audit phase which ar kept in dictionaries (see `MAPPING` `MAPPING_HOUSENUMBER`, `MAPPING_AMENITY`).
 
-At first, convert osm to json using:
+Convert osm to json including updates according to the findings during the audit phase using:
 ```
 > python import_data.py
 ```
