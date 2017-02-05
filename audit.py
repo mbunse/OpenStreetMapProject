@@ -16,7 +16,6 @@ Your task in this exercise has two steps:
 import xml.etree.cElementTree as ET
 import xml.dom.minidom as minidom
 import re
-import pprint
 import codecs
 
 OSMFILE = "schwabach.osm"
@@ -370,15 +369,13 @@ def write_set(outfile, settowrite):
         outfile.write("%s\n" % item)
     return
 
-def test():
-    """ function to test our implementation """
+if __name__ == '__main__':
 
     audit_street_type(set(), "Agnes-Gerlach-Ring")
     audit_zip(set(), "12345")
     audit_housenumber(set(), "21a")
     assert update_housnumber('ß20', MAPPING_HOUSENUMBER) == "28"
     st_types, zip_types, housenumber_types, cities, amenities, leisure_types = audit(OSMFILE)
-
 
     with open("audit_result.txt", "w") as outfile:
         outfile.write("Unmatched street names:\n")
@@ -394,26 +391,3 @@ def test():
         outfile.write("Unmatched leisure_types:\n")
         write_set(outfile, leisure_types)
         outfile.close()
-
-    # assert len(st_types) == 3
-
-    # for _, ways in st_types.iteritems():
-    #     for name in ways:
-    #         better_name = update_name(name, MAPPING)
-    #         print name, "=>", better_name
-    #         if name == "West Lexington St.":
-    #             assert better_name == "West Lexington Street"
-    #         if name == "Baldwin Rd.":
-    #             assert better_name == "Baldwin Road"
-
-
-if __name__ == '__main__':
-    test()
-
-"""
-Idee:
-<tag k="leisure" v="sports_centre"/>
-<tag k="sport" v="climbing_adventure"/>
-Suche nach Sportarten
-
-"""
